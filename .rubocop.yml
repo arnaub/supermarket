@@ -1,0 +1,19 @@
+# Exclude spec_helper.rb from RuboCop checks
+AllCops:
+  Exclude:
+    - 'spec/spec_helper.rb'
+    - 'Gemfile'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Layout/IndentationWidth:
+  EnforcedStyle: indented
+  IndentationWidth: 2
+
+Metrics/LineLength:
+  Max: 120
