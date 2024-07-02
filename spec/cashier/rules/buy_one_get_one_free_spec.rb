@@ -1,17 +1,25 @@
 require 'spec_helper'
-require_relative '../../cashier/checkout'
-require_relative '../../cashier/items'
+require_relative '../../../cashier/rules/buy_one_get_one_free'
+require_relative '../../../cashier/items'
 
 describe Cashier::Rules::BuyOneGetOneFree do
-  let(:rule) { described_class.new }
+  let(:evaluate) { described_class.evaluate(items) }
 
   describe 'buy-one-get-one-free' do
+    context 'when the items list is empty' do
+      let(:items) { [] }
+
+      it 'returns 0' do
+        expect(evaluate).to eq(0)
+      end
+    end
+
     context 'when we only have one item' do
       let(:items) { [Cashier::Items.find('GR1')] }
       let(:expected_price) { items.first[:price][:cents] }
 
       it 'returns the normal price' do
-        expect(rule.evaluate).to eq(expected_price)
+        expect(evaluate).to eq(expected_price)
       end
     end
 
@@ -20,7 +28,7 @@ describe Cashier::Rules::BuyOneGetOneFree do
       let(:expected_price) { items.first[:price][:cents] }
 
       it 'returns the price of one item' do
-        expect(rule.evaluate).to eq(expected_price)
+        expect(evaluate).to eq(expected_price)
       end
     end
 
@@ -37,7 +45,7 @@ describe Cashier::Rules::BuyOneGetOneFree do
       let(:expected_price) { 3 * items.first[:price][:cents] }
 
       it 'returns the normal price' do
-        expect(rule.evaluate).to eq(expected_price)
+        expect(evaluate).to eq(expected_price)
       end
     end
   end
