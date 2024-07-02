@@ -1,10 +1,14 @@
 require 'spec_helper'
+require_relative '../../cashier/checkout'
+require_relative '../../cashier/items'
 
-describe Checkout do
+describe Cashier::Checkout do
   let(:rules) { [] }
-  let(:first_item) { Items.find('GR1') }
-  let(:second_item) { Items.find('SR1') }
-  let(:third_item) { Items.find('GR1') }
+  let(:first_item) { Cashier::Items.find('GR1') }
+  let(:second_item) { Cashier::Items.find('SR1') }
+  let(:third_item) { Cashier::Items.find('GR1') }
+
+  let(:checkout) { described_class.new(rules) }
 
   context 'Add items' do
     before do
@@ -14,7 +18,9 @@ describe Checkout do
     end
 
     it 'the list returns the correct items' do
-      expect(checkout.list_items.map(&:id)).to match_array[first_item.id, second_item.id, third_item.id]
+      expect(checkout.items.map { |item| item[:code] }).to match_array(
+        [first_item[:code], second_item[:code], third_item[:code]]
+      )
     end
   end
 
@@ -23,22 +29,24 @@ describe Checkout do
       checkout.scan(first_item)
       checkout.scan(second_item)
       checkout.scan(third_item)
-      checkout.remove(first_item)
+      checkout.remove(first_item[:code])
     end
 
     it 'the list returns the correct items' do
-      expect(checkout.list_items.map(&:id)).to match_array[second_item.id, third_item.id]
+      expect(checkout.items.map { |item| item[:code] }).to match_array(
+        [second_item[:code], third_item[:code]]
+      )
     end
   end
 
   describe 'total' do
     context 'GR1,SR1,GR1,GR1,CF1' do
       before do
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('SR1'))
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('CF1'))
+        checkout.scan(Cashier::Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('SR1'))
+        checkout.scan(Cashier::Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('CF1'))
       end
 
       it 'calculates the correct amount' do
@@ -48,19 +56,8 @@ describe Checkout do
 
     context 'GR1,GR1' do
       before do
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('GR1'))
-      end
-
-      it 'calculates the correct amount' do
-        expect(checkout.total).to eq('£3.11')
-      end
-    end
-
-    context 'GR1,GR1' do
-      before do
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('GR1'))
       end
 
       it 'calculates the correct amount' do
@@ -70,10 +67,10 @@ describe Checkout do
 
     context 'SR1,SR1,GR1,SR1' do
       before do
-        context.scan(Items.find('SR1'))
-        context.scan(Items.find('SR1'))
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('SR1'))
+        checkout.scan(Cashier::Items.find('SR1'))
+        checkout.scan(Cashier::Items.find('SR1'))
+        checkout.scan(Cashier::Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('SR1'))
       end
 
       it 'calculates the correct amount' do
@@ -83,11 +80,11 @@ describe Checkout do
 
     context 'GR1,CF1,SR1,CF1,CF1' do
       before do
-        context.scan(Items.find('GR1'))
-        context.scan(Items.find('CF1'))
-        context.scan(Items.find('SR1'))
-        context.scan(Items.find('CF1'))
-        context.scan(Items.find('CF1'))
+        checkout.scan(Cashier::Items.find('GR1'))
+        checkout.scan(Cashier::Items.find('CF1'))
+        checkout.scan(Cashier::Items.find('SR1'))
+        checkout.scan(Cashier::Items.find('CF1'))
+        checkout.scan(Cashier::Items.find('CF1'))
       end
 
       it 'calculates the correct amount' do
