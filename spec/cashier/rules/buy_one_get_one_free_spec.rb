@@ -16,7 +16,7 @@ describe Cashier::Rules::BuyOneGetOneFree do
 
     context 'when we only have one item' do
       let(:items) { [Cashier::Items.find('GR1')] }
-      let(:expected_price) { items.first[:price][:cents] }
+      let(:expected_price) { items.first.price.cents }
 
       it 'returns the normal price' do
         expect(evaluate).to eq(expected_price)
@@ -25,7 +25,7 @@ describe Cashier::Rules::BuyOneGetOneFree do
 
     context 'when we only have two items' do
       let(:items) { [Cashier::Items.find('GR1')] }
-      let(:expected_price) { items.first[:price][:cents] }
+      let(:expected_price) { items.first.price.cents }
 
       it 'returns the price of one item' do
         expect(evaluate).to eq(expected_price)
@@ -42,7 +42,7 @@ describe Cashier::Rules::BuyOneGetOneFree do
           Cashier::Items.find('GR1')
         ]
       end
-      let(:expected_price) { 3 * items.first[:price][:cents] }
+      let(:expected_price) { 3 * items.first.price.cents }
 
       it 'returns the normal price' do
         expect(evaluate).to eq(expected_price)

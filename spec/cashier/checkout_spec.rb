@@ -18,8 +18,8 @@ describe Cashier::Checkout do
     end
 
     it 'the list returns the correct items' do
-      expect(checkout.items.map { |item| item[:code] }).to match_array(
-        [first_item[:code], second_item[:code], third_item[:code]]
+      expect(checkout.items.map(&:code)).to match_array(
+        [first_item.code, second_item.code, third_item.code]
       )
     end
   end
@@ -29,12 +29,12 @@ describe Cashier::Checkout do
       checkout.scan(first_item)
       checkout.scan(second_item)
       checkout.scan(third_item)
-      checkout.remove(first_item[:code])
+      checkout.remove(first_item.code)
     end
 
     it 'the list returns the correct items' do
-      expect(checkout.items.map { |item| item[:code] }).to match_array(
-        [second_item[:code], third_item[:code]]
+      expect(checkout.items.map(&:code)).to match_array(
+        [second_item.code, third_item.code]
       )
     end
   end
