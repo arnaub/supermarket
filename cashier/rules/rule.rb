@@ -11,6 +11,9 @@ module Cashier
 
       abstract!
 
+      sig { abstract.returns(String) }
+      def self.identifier; end
+
       sig { abstract.params(items: T::Array[Entities::Item]).returns(Integer) }
       def self.evaluate(items); end
 

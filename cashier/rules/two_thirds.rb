@@ -8,8 +8,13 @@ module Cashier
     # total cost for items with a 1/3 discount.
     class TwoThirds < Cashier::Rules::Rule
       sig { override.returns(String) }
+      def self.identifier
+        'two_thirds'
+      end
+
+      sig { override.returns(String) }
       def self.code
-        'GR1'
+        'CF1'
       end
 
       sig { override.params(items: T::Array[Entities::Item]).returns(Integer) }

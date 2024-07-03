@@ -8,6 +8,11 @@ module Cashier
     # cost for items with a 50 cents discount
     class Discount < Cashier::Rules::Rule
       sig { override.returns(String) }
+      def self.identifier
+        'discount'
+      end
+
+      sig { override.returns(String) }
       def self.code
         'SR1'
       end

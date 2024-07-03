@@ -1,5 +1,8 @@
 require 'spec_helper'
+require_relative '../../../cashier/rules/manager'
 require_relative '../../../cashier/rules/buy_one_get_one_free'
+require_relative '../../../cashier/rules/discount'
+require_relative '../../../cashier/rules/two_thirds'
 require_relative '../../../cashier/items'
 
 describe Cashier::Rules::Manager do
@@ -7,7 +10,7 @@ describe Cashier::Rules::Manager do
 
   context 'list' do
     it 'returns the list of existing rules' do
-      expect(manager.list.map(:identifier)).to match_array(%w[buy_one_get_one_free discount two_thirds])
+      expect(manager.list.map(&:identifier)).to match_array(%w[buy_one_get_one_free discount two_thirds])
     end
   end
 
@@ -31,24 +34,24 @@ describe Cashier::Rules::Manager do
     end
 
     it 'filters the items and call the evaluator for BuyOneGetOneFree' do
-      allow_any_instance_of(Cashier::Rules::BuyOneGetOneFree).to receive(:evaluate)
+      expect(Cashier::Rules::BuyOneGetOneFree).to receive(:evaluate)
         .with(contain_exactly(green_tea_item))
         .and_call_original
-      manager.evaluate
+      manager.evaluate(items)
     end
 
     it 'filters the items and call the evaluator for Discount' do
-      allow_any_instance_of(Cashier::Rules::Discount).to receive(:evaluate)
+      expect(Cashier::Rules::Discount).to receive(:evaluate)
         .with(contain_exactly(strawberries_item1, strawberries_item2))
         .and_call_original
-      manager.evaluate
+      manager.evaluate(items)
     end
 
-    it 'filters the items and call the evaluator for Discount' do
-      allow_any_instance_of(Cashier::Rules::TwoThirds).to receive(:evaluate)
+    it 'filters the items and call the evaluator for TwoThirds' do
+      expect(Cashier::Rules::TwoThirds).to receive(:evaluate)
         .with(contain_exactly(coffee_item1, coffee_item2, coffee_item3))
         .and_call_original
-      manager.evaluate
+      manager.evaluate(items)
     end
   end
 end

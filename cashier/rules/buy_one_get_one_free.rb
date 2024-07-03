@@ -8,6 +8,11 @@ module Cashier
     # cost for items with a buy-one-get-one-free promotion.
     class BuyOneGetOneFree < Cashier::Rules::Rule
       sig { override.returns(String) }
+      def self.identifier
+        'buy_one_get_one_free'
+      end
+
+      sig { override.returns(String) }
       def self.code
         'GR1'
       end
