@@ -1,3 +1,4 @@
+# typed: false
 require 'spec_helper'
 require_relative '../../../cashier/rules/two_thirds'
 require_relative '../../../cashier/items'

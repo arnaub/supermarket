@@ -8,3 +8,5 @@ gem "rubocop-rspec", require: false
 gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
 gem 'tapioca', require: false, :group => [:development, :test]
+gem 'money'
+gem 'i18n'

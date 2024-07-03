@@ -1,3 +1,4 @@
+# typed: strict
 module Cashier
   module Entities
     # Struct to represent the Price

@@ -2,10 +2,15 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    concurrent-ruby (1.3.3)
     diff-lcs (1.5.1)
     erubi (1.13.0)
+    i18n (1.14.5)
+      concurrent-ruby (~> 1.0)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
+    money (6.19.0)
+      i18n (>= 0.6.4, <= 2)
     netrc (0.11.0)
     parallel (1.25.1)
     parser (3.3.3.0)
@@ -82,6 +87,8 @@ PLATFORMS
   arm64-darwin-23
 
 DEPENDENCIES
+  i18n
+  money
   rspec
   rubocop
   rubocop-rspec
