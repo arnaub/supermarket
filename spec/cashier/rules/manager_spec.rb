@@ -1,4 +1,5 @@
 # typed: false
+
 require 'spec_helper'
 require_relative '../../../cashier/rules/manager'
 require_relative '../../../cashier/rules/buy_one_get_one_free'
@@ -8,6 +9,8 @@ require_relative '../../../cashier/items'
 
 describe Cashier::Rules::Manager do
   let(:manager) { described_class.new }
+  let(:rules) { manager.list }
+  let(:action) { manager.evaluate(items:, rules:) }
 
   context 'list' do
     it 'returns the list of existing rules' do
@@ -38,21 +41,21 @@ describe Cashier::Rules::Manager do
       expect(Cashier::Rules::BuyOneGetOneFree).to receive(:evaluate)
         .with(contain_exactly(green_tea_item))
         .and_call_original
-      manager.evaluate(items)
+      action
     end
 
     it 'filters the items and call the evaluator for Discount' do
       expect(Cashier::Rules::Discount).to receive(:evaluate)
         .with(contain_exactly(strawberries_item1, strawberries_item2))
         .and_call_original
-      manager.evaluate(items)
+      action
     end
 
     it 'filters the items and call the evaluator for TwoThirds' do
       expect(Cashier::Rules::TwoThirds).to receive(:evaluate)
         .with(contain_exactly(coffee_item1, coffee_item2, coffee_item3))
         .and_call_original
-      manager.evaluate(items)
+      action
     end
   end
 end

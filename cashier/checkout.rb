@@ -1,7 +1,12 @@
 # typed: strict
 
+require 'money'
+
 require_relative './entities/rule'
 require_relative './entities/item'
+require_relative './rules/manager'
+
+Money.locale_backend = nil
 
 module Cashier
   # The Checkout class represents a shopping cart that scans,
@@ -32,9 +37,10 @@ module Cashier
       index ? @items.delete_at(index) : nil
     end
 
-    sig { returns(Integer) }
+    sig { returns(String) }
     def total
-      items.map { |item| item.price.cents }.sum
+      cents = Cashier::Rules::Manager.new.evaluate(items:, rules:)
+      Money.from_cents(cents, 'GBP').format
     end
   end
 end

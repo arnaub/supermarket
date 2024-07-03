@@ -14,21 +14,18 @@ module Cashier
     class Manager
       extend T::Sig
 
-      sig { void }
-      def initialize
-        @rules = T.let(entities, T::Array[Cashier::Entities::Rule])
-      end
-
-      sig { returns(T::Array[Cashier::Entities::Rule]) }
-      attr_reader :rules
-
       sig { returns(T::Array[Cashier::Entities::Rule]) }
       def list
         entities
       end
 
-      sig { params(items: T::Array[Cashier::Entities::Item]).returns(Integer) }
-      def evaluate(items)
+      sig do
+        params(
+          items: T::Array[Cashier::Entities::Item],
+          rules: T::Array[Cashier::Entities::Rule]
+        ).returns(Integer)
+      end
+      def evaluate(items:, rules:)
         rules.map do |rule|
           rule.evaluate.call(items.filter { |item| item.code == rule.code })
         end.sum

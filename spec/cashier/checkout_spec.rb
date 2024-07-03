@@ -1,10 +1,12 @@
 # typed: false
+
 require 'spec_helper'
 require_relative '../../cashier/checkout'
 require_relative '../../cashier/items'
+require_relative '../../cashier/rules/manager'
 
 describe Cashier::Checkout do
-  let(:rules) { [] }
+  let(:rules) { Cashier::Rules::Manager.new.list }
   let(:first_item) { Cashier::Items.find('GR1') }
   let(:second_item) { Cashier::Items.find('SR1') }
   let(:third_item) { Cashier::Items.find('GR1') }
