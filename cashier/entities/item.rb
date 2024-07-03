@@ -1,6 +1,6 @@
 # typed: strict
 
-require_relative "./price"
+require_relative './price'
 module Cashier
   module Entities
     # Struct to represent an Item

@@ -3,7 +3,6 @@
 require_relative './entities/rule'
 require_relative './entities/item'
 
-
 module Cashier
   # The Checkout class represents a shopping cart that scans,
   # removes, and calculates the total price of items based on given rules.

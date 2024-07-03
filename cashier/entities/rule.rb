@@ -1,6 +1,6 @@
-#typed: strict
+# typed: strict
 
-require_relative "./item"
+require_relative './item'
 module Cashier
   module Entities
     # Struct to represent a Rule
