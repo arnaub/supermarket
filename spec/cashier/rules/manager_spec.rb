@@ -57,5 +57,9 @@ describe Cashier::Rules::Manager do
         .and_call_original
       action
     end
+
+    it 'returns the correct value in cents' do
+      expect(action).to eq(35_57)
+    end
   end
 end
